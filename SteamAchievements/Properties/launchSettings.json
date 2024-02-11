@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SteamAchievements": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\persa\\Desktop\\SteamAchievements\\WebServer"
+    }
+  }
+}
