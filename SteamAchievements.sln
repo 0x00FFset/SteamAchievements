@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamAchievements", "SteamA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServer", "WebServer\WebServer.csproj", "{35C73860-952D-4541-B8BF-554D91937A24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamAchievements.API", "SteamAchievements.API\SteamAchievements.API.csproj", "{6BA143B1-3197-44FA-969F-CFE049179FCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{35C73860-952D-4541-B8BF-554D91937A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35C73860-952D-4541-B8BF-554D91937A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35C73860-952D-4541-B8BF-554D91937A24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BA143B1-3197-44FA-969F-CFE049179FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BA143B1-3197-44FA-969F-CFE049179FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BA143B1-3197-44FA-969F-CFE049179FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BA143B1-3197-44FA-969F-CFE049179FCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
