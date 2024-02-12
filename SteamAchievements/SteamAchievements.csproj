@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebServer\WebServer.csproj" />
+    <ProjectReference Include="..\SteamAchievements.WebServer\SteamAchievements.WebServer.csproj" />
   </ItemGroup>
 
 </Project>

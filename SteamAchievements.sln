@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamAchievements", "SteamAchievements\SteamAchievements.csproj", "{1E6D8B98-3D8B-48FC-B575-1F01320B5AB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServer", "WebServer\WebServer.csproj", "{35C73860-952D-4541-B8BF-554D91937A24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamAchievements.WebServer", "SteamAchievements.WebServer\SteamAchievements.WebServer.csproj", "{35C73860-952D-4541-B8BF-554D91937A24}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamAchievements.API", "SteamAchievements.API\SteamAchievements.API.csproj", "{6BA143B1-3197-44FA-969F-CFE049179FCE}"
 EndProject
