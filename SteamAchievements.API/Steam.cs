@@ -9,8 +9,14 @@ namespace SteamAchievements.API;
 
  public static class Steam
 {
+
+    private static string SteamClientDll => Environment.Is64BitProcess ? @"steamclient64.dll" : @"steamclient.dll";
+
     private struct Native
     {
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool FreeLibrary(nint hModule);
+
         [DllImport("kernel32.dll", SetLastError = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         internal static extern IntPtr GetProcAddress(IntPtr module, string name);
 
@@ -40,7 +46,9 @@ namespace SteamAchievements.API;
 
     public static string GetInstallPath()
     {
-        return (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\Software\Valve\Steam", "InstallPath", null);
+        using var view32 = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
+        using var clsid32 = view32.OpenSubKey(@"Software\Valve\Steam", false);
+        return (string) clsid32?.GetValue(@"InstallPath");
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
@@ -87,45 +95,31 @@ namespace SteamAchievements.API;
 
     public static bool Load()
     {
-        if (_Handle != IntPtr.Zero)
-        {
+            if (_Handle != nint.Zero)
+            {
+                Native.FreeLibrary(_Handle);
+                _Handle = nint.Zero;
+            }
+
+            var path = GetInstallPath();
+            if (path == null) return false;
+
+            Native.SetDllDirectory(path + ";" + Path.Combine(path, "bin"));
+            path = Path.Combine(path, SteamClientDll);
+
+            var module = Native.LoadLibraryEx(path, nint.Zero, Native.LoadWithAlteredSearchPath);
+            if (module == nint.Zero) return false;
+
+            _CallCreateInterface = GetExportFunction<NativeCreateInterface>(module, "CreateInterface");
+            if (_CallCreateInterface == null) return false;
+
+            _CallSteamBGetCallback = GetExportFunction<NativeSteamGetCallback>(module, "Steam_BGetCallback");
+            if (_CallSteamBGetCallback == null) return false;
+
+            _CallSteamFreeLastCallback = GetExportFunction<NativeSteamFreeLastCallback>(module, "Steam_FreeLastCallback");
+            if (_CallSteamFreeLastCallback == null) return false;
+
+            _Handle = module;
             return true;
-        }
-
-        string path = GetInstallPath();
-        if (path == null)
-        {
-            return false;
-        }
-
-        Native.SetDllDirectory(path + ";" + Path.Combine(path, "bin"));
-
-        path = Path.Combine(path, "steamclient.dll");
-        IntPtr module = Native.LoadLibraryEx(path, IntPtr.Zero, Native.LoadWithAlteredSearchPath);
-        if (module == IntPtr.Zero)
-        {
-            return false;
-        }
-
-        _CallCreateInterface = GetExportFunction<NativeCreateInterface>(module, "CreateInterface");
-        if (_CallCreateInterface == null)
-        {
-            return false;
-        }
-
-        _CallSteamBGetCallback = GetExportFunction<NativeSteamGetCallback>(module, "Steam_BGetCallback");
-        if (_CallSteamBGetCallback == null)
-        {
-            return false;
-        }
-
-        _CallSteamFreeLastCallback = GetExportFunction<NativeSteamFreeLastCallback>(module, "Steam_FreeLastCallback");
-        if (_CallSteamFreeLastCallback == null)
-        {
-            return false;
-        }
-
-        _Handle = module;
-        return true;
     }
 }
